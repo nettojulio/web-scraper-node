@@ -39,7 +39,8 @@ Não há prazo mínimo para entrega, mas o desejável é o quanto antes. Deixamo
 
 3. Acesse <http://localhost:3000/swagger> e efetue requisições para os endpoins:
     <br>
-
     **GET** - Retorna todos os elementos definidos na busca: [Link 1](http://localhost:3000/swagger/#/default/get_)
+    <br>
     **PUT** - Atualiza todos os elementos definidos na busca (JSON e Banco de Dados): [Link 2](http://localhost:3000/swagger/#/default/put_)
+    <br>
     **DELETE** - Apaga todos os elementos definidos na busca (JSON e Banco de Dados): [Link 3](http://localhost:3000/swagger/#/default/delete_)
