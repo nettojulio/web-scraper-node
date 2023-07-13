@@ -3,6 +3,7 @@ const fs = require("fs");
 const url = "https://webscraper.io/test-sites/e-commerce/allinone/computers/laptops";
 const searchFor = "Lenovo";
 const selectors = [".col-sm-4", ".col-lg-4", ".col-md-4"];
+const resultJsonFilePath = "result.json";
 
 async function readJsonFile(filename) {
   try {
@@ -41,13 +42,23 @@ function sortListByPrice(list) {
   list.sort((a, b) => a.price - b.price);
 }
 
+function createItem(data) {
+  return {
+    keyword: searchFor,
+    totalMatches: data.length,
+    items: data,
+  };
+}
+
 module.exports = {
   url,
   searchFor,
   selectors,
+  resultJsonFilePath,
   includeSearchedValue,
   sortListByPrice,
   readJsonFile,
   saveDataToJson,
   deleteFile,
+  createItem,
 };

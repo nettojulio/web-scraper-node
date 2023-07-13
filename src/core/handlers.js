@@ -1,5 +1,4 @@
 const { searchFor, includeSearchedValue } = require("../utils/utils");
-const { getHTMLValue } = require("./helpers");
 
 async function findItems(links, browser) {
   const pagePromises = links.map(async (link) => {
@@ -8,6 +7,21 @@ async function findItems(links, browser) {
   });
   const list = await Promise.all(pagePromises);
   return list.filter((item) => item !== null);
+}
+
+async function waitForAllSelectors(page, selectors) {
+  await Promise.all(
+    selectors.map(async (selector) => await page.waitForSelector(selector))
+  );
+}
+
+async function createSearchLinks(selector, page) {
+  return page.$$eval(selector, (el) => el.map((link) => link.href));
+}
+
+async function getHTMLValue(selector, page) {
+  const value = await page.$eval(selector, (element) => element.innerText);
+  return String(value);
 }
 
 async function requestItem(link, page) {
@@ -24,10 +38,14 @@ async function requestItem(link, page) {
       return null;
     }
 
+    const splitURL = link.split("/");
+
+    const id = splitURL[splitURL.length - 1];
     const description = await getHTMLValue(".description", page);
     const price = await getHTMLValue(".caption > .pull-right.price", page);
 
     return {
+      id,
       title,
       description,
       price: parseFloat(price.replace(/[^0-9.-]+/g, "")),
@@ -41,4 +59,9 @@ async function requestItem(link, page) {
   }
 }
 
-module.exports = { findItems };
+module.exports = {
+  findItems,
+  waitForAllSelectors,
+  createSearchLinks,
+  getHTMLValue,
+};

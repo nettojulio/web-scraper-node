@@ -1,9 +1,8 @@
 const puppeteer = require("puppeteer");
 const { sortListByPrice, url, selectors } = require("../utils/utils");
-const { waitForAllSelectors, createSearchLinks } = require("./helpers");
-const { findItems } = require("./handlers");
+const { findItems, waitForAllSelectors, createSearchLinks } = require("./handlers");
 
-async function scraper() {
+async function webScraper() {
   try {
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
@@ -20,10 +19,9 @@ async function scraper() {
 
     return list;
   } catch (error) {
-    console.error("Panic:",error)
+    console.error("Panic:", error);
     return [];
   }
-
 }
 
-module.exports = { scraper };
+module.exports = { webScraper };
